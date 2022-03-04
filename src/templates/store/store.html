@@ -15,7 +15,14 @@
 <section>
     <div class="container px-4 px-lg-5 mt-0">
         <div class="row cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            
+            {% if pet_count == 0 %}
+            <div class="card-body p-4">
+                <div class="text-center">
+                    <h3>No hay elementos todavia</h3>
+                </div>
 
+                {% else %}
             {% for pet in pets %}
             <div class="col mb-5">
                 
@@ -37,7 +44,9 @@
                     </div>
                 </div>
                 </div>
+                
                 {% endfor %}
+                {% endif %}
             </div>
         
         </div>
