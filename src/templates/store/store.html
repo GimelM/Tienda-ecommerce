@@ -28,12 +28,12 @@
                 
                 <div class="card h-100">
                     <!-- Product image-->
-                    <img class="card-img-top" style="width="200"; height="200";" src="{{ pet.images.url }}" alt="..." />
+                    <a href="{{ pet.get_url }}"><img class="card-img-top"  style="width="200"; height="200";" src="{{ pet.images.url }}" alt="..."/></a>
                     <!-- Product details-->
                     <div class="card-body">
                         <div class="text-center">
                             <!-- Product name-->
-                            <h5>{{ pet.pet_name }}</h5>
+                            <a href="{{ pet.get_url }}" style="text-decoration: none; color: blue;"><h5>{{ pet.pet_name }}</h5></a>
                             <!-- Product price-->
                             <b> RD$ {{ pet.price }}</b> 
                         </div>
