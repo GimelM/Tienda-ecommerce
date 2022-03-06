@@ -1,5 +1,5 @@
 from multiprocessing import context
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from store.models import Pets
 from .models import Cart, CartItem
 from django.core.exceptions import ObjectDoesNotExist
@@ -29,6 +29,25 @@ def add_cart(request, pet_id):
     return redirect('cart')
 
 
+def remove_cart(request, pet_id):
+    cart = Cart.objects.get(cart_id=_cart_id(request))
+    pet = get_object_or_404(Pets, id=pet_id)
+    cart_item = CartItem.objects.get(pet=pet,cart=cart)
+    
+    if cart_item.quantity > 1:
+        cart_item.quantity -= 1
+        cart_item.save()
+    else:
+        cart_item.delete()
+        
+    return redirect('cart')
+
+def remove_cart_item(request, pet_id):
+    cart = Cart.objects.get(cart_id=_cart_id(request))
+    pet = get_object_or_404(Pets, id=pet_id)
+    cart_item = CartItem.objects.get(pet=pet, cart=cart)
+    cart_item.delete()
+    return redirect('cart')
 
 def cart(request, total=0, quantity=0, cart_items=None):
     try:
@@ -37,6 +56,10 @@ def cart(request, total=0, quantity=0, cart_items=None):
         for cart_item in cart_items:
             total += (cart_item.pet.price * cart_item.quantity)
             quantity += cart_item.quantity
+            
+        tax = (18*total)/100
+        final_total = total + tax
+        
     except ObjectDoesNotExist:
         pass
         
@@ -44,5 +67,7 @@ def cart(request, total=0, quantity=0, cart_items=None):
         'total': total,
         'quantity': quantity,
         'cart_items': cart_items,
+        'tax': tax,
+        'final_total': final_total,
     }
     return render(request, "store/cart.html", context)

@@ -4,9 +4,14 @@
 
 <section class="section-content padding-y bg">
     <div class="container">
-    
     <!-- ============================ COMPONENT 1 ================================= -->
-    
+    {% if not cart_items %}
+    <h3 class="text-center">El carrito de compras esta vacio</h3>
+    <br>
+    <div class="text-center">
+        <a href="{% url 'store' %}" class="btn btn-primary">Continua comprando</a>
+    </div>
+    {% else %}
     <div class="row">
         <aside class="col-lg-9">
     <div class="card">
@@ -38,11 +43,11 @@
                         <div class="col"> 
                             <div class="input-group input-spinner">
                                 <div class="input-group-prepend">
-                                <button class="btn btn-primary" type="button"> <i class="fa fa-minus"></i> </button>
+                                <a href="{% url 'remove_cart' cart_item.pet.id %}" class="btn btn-primary" type="button"> <i class="fa fa-minus"></i> </a>
                                 </div>
-                                <span style="margin: 8px; margin-top:0;">{{ cart_item.quantity }}</span>
+                                <span style="margin: 2px; margin-top:0;">{{ cart_item.quantity }}</span>
                                 <div class="input-group-append">
-                                <button class="btn btn-primary" type="button"> <i class="fa fa-plus"></i> </button>
+                                <a href="{% url 'add_cart' cart_item.pet.id %}" class="btn btn-primary" type="button"> <i class="fa fa-plus"></i> </a>
                                 </div>
                             </div> <!-- input-group.// -->
                         </div> <!-- col.// -->
@@ -56,7 +61,7 @@
             </div> <!-- price-wrap .// -->
         </td>
         <td class="text-right"> 
-        <a href="" class="btn btn-danger"> Eliminar</a>
+        <a href="{% url 'remove_cart_item' cart_item.pet.id %}" class="btn btn-danger"> Eliminar</a>
         </td>
     </tr>
     {% endfor %}
@@ -70,16 +75,16 @@
             <div class="card">
             <div class="card-body">
                 <dl class="dlist-align">
-                  <dt>Total price:</dt>
-                  <dd class="text-right">$69.97</dd>
+                  <dt>Precio total:</dt>
+                  <dd class="text-right">RD$ {{ total }}</dd>
                 </dl>
                 <dl class="dlist-align">
-                  <dt>Tax:</dt>
-                  <dd class="text-right"> $10.00</dd>
+                  <dt>Impuestos:</dt>
+                  <dd class="text-right"> RD$ {{ tax }}</dd>
                 </dl>
                 <dl class="dlist-align">
                   <dt>Total:</dt>
-                  <dd class="text-right text-dark b"><strong>$59.97</strong></dd>
+                  <dd class="text-right text-dark b"><strong>RD$ {{ final_total }}</strong></dd>
                 </dl>
                 <hr>
                 <p class="text-center mb-3">
@@ -95,7 +100,7 @@
     
     </div> <!-- row.// -->
     <!-- ============================ COMPONENT 1 END .// ================================= -->
-    
+    {% endif %}
     </div> <!-- container .//  -->
     </section>
     <!-- ========================= SECTION CONTENT END// ========================= -->

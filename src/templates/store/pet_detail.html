@@ -19,7 +19,7 @@
                     {% if single_pet.stock <= 0 %}
                     <h5>Producto fuera de Stock</h5>
                     {% else %}
-                    <a href="{% url 'add_cart' single_pet.id %}"><button class="btn btn-outline-dark flex-shrink-0" type="button">
+                    <a href="{% url 'add_cart' single_pet.id %}"><button class="btn btn-primary flex-shrink-0" type="button">
                         <i class="bi-cart-fill me-1"></i>
                         Add to cart
                     </button>
